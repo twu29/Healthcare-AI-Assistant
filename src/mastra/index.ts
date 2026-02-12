@@ -7,6 +7,7 @@ import { evaluationAgent } from './agents/evaluationAgent';
 import { reportAgent } from './agents/reportAgent';
 import { researchAgent } from './agents/researchAgent';
 import { webSummarizationAgent } from './agents/webSummarizationAgent';
+import { preDiagnosisAgent } from './agents/preDiagnosisAgent';
 import { generateReportWorkflow } from './workflows/generateReportWorkflow';
 
 export const mastra = new Mastra({
@@ -20,6 +21,7 @@ export const mastra = new Mastra({
     evaluationAgent,
     learningExtractionAgent,
     webSummarizationAgent,
+    preDiagnosisAgent,
   },
   workflows: { generateReportWorkflow, researchWorkflow },
   observability: new Observability({
