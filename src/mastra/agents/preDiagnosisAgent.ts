@@ -51,7 +51,7 @@ BOUNDARIES:
 - Do not interpret ICD codes as proof of a condition.
 - Maintain a calm, empathetic, and professional tone.
 - Use "Plain Talk" (avoid heavy medical jargon).`,
-  model: process.env.MODEL || 'google/gemini-2.0-flash-001', // Note: Check model name string for your provider
+  model: process.env.MODEL || 'google/gemini-2.5-flash',
   tools: {
     clinicalConditionsSearchTool,
   },
