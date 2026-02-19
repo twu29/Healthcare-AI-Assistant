@@ -1,48 +1,57 @@
-import { IMessageSDK } from "@photon-ai/imessage-kit";
+import { SDK } from "@photon-ai/advanced-imessage-kit";
 import { mastra } from "./mastra/index";
 
-const sdk = new IMessageSDK();
+const sdk = SDK({
+  serverUrl: "http://localhost:1234",
+});
 
 async function main() {
   const agent = mastra.getAgent("preDiagnosisAgent");
 
+  await sdk.connect();
   console.log("Healthcare agent is now listening for iMessages...");
 
-  await sdk.startWatching({
-    onDirectMessage: async (msg) => {
-      const userText = msg.text?.trim();
-      if (!userText) return;
+  sdk.on("new-message", async (message: any) => {
+    // Ignore messages sent by us
+    if (message.isFromMe) return;
 
-      const sender = msg.sender;
-      console.log(`[${sender}] Received: ${userText}`);
+    const userText = message.text?.trim();
+    if (!userText) return;
 
-      try {
-        // Use sender as thread/resource so each conversation has its own memory
-        const response = await agent.generate(userText, {
-          memory: {
-            thread: sender,
-            resource: sender,
-          },
-        });
+    const sender = message.handle?.address;
+    if (!sender) return;
 
-        const reply = response.text;
-        console.log(`[${sender}] Replying: ${reply.substring(0, 100)}...`);
+    console.log(`[${sender}] Received: ${userText}`);
 
-        await sdk.send(sender, reply);
-      } catch (err) {
-        console.error(`[${sender}] Error processing message:`, err);
-        await sdk.send(
-          sender,
-          "I'm sorry, I encountered an issue processing your message. Please try again."
-        );
-      }
-    },
+    try {
+      // Use sender as thread/resource so each conversation has its own memory
+      const response = await agent.generate(userText, {
+        memory: {
+          thread: sender,
+          resource: sender,
+        },
+      });
+
+      const reply = response.text;
+      console.log(`[${sender}] Replying: ${reply.substring(0, 100)}...`);
+
+      await sdk.messages.sendMessage({
+        chatGuid: `iMessage;-;${sender}`,
+        message: reply,
+      });
+    } catch (err) {
+      console.error(`[${sender}] Error processing message:`, err);
+      await sdk.messages.sendMessage({
+        chatGuid: `iMessage;-;${sender}`,
+        message:
+          "I'm sorry, I encountered an issue processing your message. Please try again.",
+      });
+    }
   });
 
   // Handle graceful shutdown
   process.on("SIGINT", async () => {
     console.log("\nShutting down...");
-    sdk.stopWatching();
     await sdk.close();
     process.exit(0);
   });
