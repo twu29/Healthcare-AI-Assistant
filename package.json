@@ -23,10 +23,10 @@
     "@mastra/loggers": "latest",
     "@mastra/memory": "^1.3.0",
     "@mastra/observability": "latest",
-    "@photon-ai/advanced-imessage-kit": "^1.14.2",
     "@photon-ai/imessage-kit": "^2.1.2",
     "ai": "^5.0.121",
     "better-sqlite3": "^12.6.2",
+    "dotenv": "^17.3.1",
     "exa-js": "^2.0.9",
     "zod": "^3.25.76"
   },

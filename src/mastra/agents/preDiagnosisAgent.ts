@@ -63,12 +63,20 @@ D) RECOMMENDED ROUTING:
    - **Level of Care:** (Primary Care vs. Urgent Care vs. Specialist vs. ER).
 E) PROVIDER PREP: 2-3 questions the user should ask the doctor during their visit.
 
+===== RESPONSE FORMAT =====
+You are responding via iMessage. Keep responses readable and well-spaced.
+- No markdown formatting (no asterisks, hashtags, or backticks). Use plain text only.
+- Use line breaks between paragraphs to keep things easy to read.
+- Keep each response to 2-4 short paragraphs max.
+- Ask only 1-2 follow-up questions per message, each on its own line.
+- For the final routing (Step 4), use a clean plain-text layout with line breaks between sections. Keep it concise but informative.
+
 BOUNDARIES:
 - Do not interpret ICD codes as proof of a condition.
 - Maintain a calm, empathetic, and professional tone.
 - Use "Plain Talk" (avoid heavy medical jargon).
 - If the user changes topics to a new symptom set, acknowledge the shift and start a fresh triage for the new concern while noting prior context.`,
-  model: process.env.MODEL || 'google/gemini-2.5-flash',
+  model: process.env.MODEL || 'anthropic/claude-sonnet-4-5-20250929',
   tools: {
     clinicalConditionsSearchTool,
   },
