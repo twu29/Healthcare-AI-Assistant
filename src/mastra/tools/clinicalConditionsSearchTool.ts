@@ -11,8 +11,8 @@ export const clinicalConditionsSearchTool = createTool({
       .describe("The symptom or condition term to search for (e.g., 'headache', 'gastroenteritis', 'migrai')"),
     maxResults: z
       .number()
-      .describe('Maximum number of results to return (default: 10)')
-      .default(10),
+      .describe('Maximum number of results to return (default: 5)')
+      .default(5),
     includeExtraFields: z
       .boolean()
       .describe('Whether to include extra fields like ICD-10 codes, synonyms, and info links (default: true)')
