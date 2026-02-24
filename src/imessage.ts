@@ -1,5 +1,6 @@
 import { IMessageSDK } from "@photon-ai/imessage-kit";
 import { mastra } from "./mastra/index";
+import 'dotenv/config';
 
 async function main() {
   const agent = mastra.getAgent("preDiagnosisAgent");
